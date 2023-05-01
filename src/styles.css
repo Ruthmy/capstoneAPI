@@ -1,0 +1,24 @@
+/* Global Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+html {
+  box-sizing: border-box;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+
+  /* outline: 1px solid red !important; */
+}
+
+:root {
+  /* Set your variables here */
+  --font: 'Montserrat', sans-serif;
+}
