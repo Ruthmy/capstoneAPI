@@ -77,3 +77,15 @@ header ul {
 .links-out {
   color: rgb(119, 119, 119);
 }
+
+footer {
+  display: flex;
+  height: 130px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(223, 223, 223);
+}
+
+footer a {
+  text-decoration: underline;
+}
