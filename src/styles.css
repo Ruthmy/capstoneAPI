@@ -42,28 +42,28 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-Header {
+header {
   height: 30px;
   display: flex;
   flex-direction: row;
   margin-block-start: 1em;
   margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
   padding-inline-start: 40px;
   justify-content: space-between;
   margin-right: 2%;
   align-items: center;
   font-family: 'Press Start 2P', monospace;
 }
- 
-Header img{
+
+header img {
   height: 50px;
   width: 50px;
   margin-left: 2%;
 }
 
-Header ul{
+header ul {
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -71,6 +71,6 @@ Header ul{
   font-size: 1rem;
 }
 
-.links-out{
+.links-out {
   color: rgb(119, 119, 119);
 }
