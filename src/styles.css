@@ -1,7 +1,9 @@
 /* Global Styles */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 
 html {
   box-sizing: border-box;
@@ -12,9 +14,12 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
   margin: 0;
   padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  box-sizing: inherit;
 
   /* outline: 1px solid red !important; */
 }
@@ -38,6 +43,7 @@ a {
 
 /* Set the default text color and font family */
 body {
+
   color: #070707;
   font-family: 'Poppins', sans-serif;
 }
@@ -74,3 +80,4 @@ header ul {
 .links-out {
   color: rgb(119, 119, 119);
 }
+
