@@ -1,7 +1,7 @@
 /* Global Styles */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 html {
   box-sizing: border-box;
@@ -41,6 +41,39 @@ a {
 
 /* Set the default text color and font family */
 body {
-  color: #333;
+  color: #070707;
   font-family: 'Poppins', sans-serif;
+}
+
+header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 40px;
+  justify-content: space-between;
+  margin-right: 2%;
+  align-items: center;
+  font-family: 'Press Start 2P', monospace;
+}
+
+header img {
+  height: 50px;
+  width: 50px;
+  margin-left: 2%;
+}
+
+header ul {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.links-out {
+  color: rgb(119, 119, 119);
 }
