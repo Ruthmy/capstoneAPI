@@ -1,10 +1,11 @@
 const path = require('path');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
-  mode: 'development',
+  mode: 'none',
+  entry: {
+    index: './src/index.js',
+  },
   devServer: {
     static: './dist',
   },
@@ -14,8 +15,9 @@ module.exports = {
     }),
   ],
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
@@ -28,9 +30,12 @@ module.exports = {
         type: 'asset/resource',
       },
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        type: 'asset/resource',
+        test: /\.html$/i,
+        loader: "html-loader",
       },
     ],
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
 };
