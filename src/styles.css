@@ -15,8 +15,6 @@ html {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
   box-sizing: inherit;
 
   /* outline: 1px solid red !important; */
@@ -25,65 +23,185 @@ html {
 :root {
   /* Set your variables here */
   --font: 'Montserrat', sans-serif;
+  --nav: 'Press Start 2P', cursive;
+  --text: #070707;
+  --background: #f3f4f6;
+  --card: white;
+  --cardtext: #33333f;
+  --footer: rgb(223, 223, 223);
 }
 
-/* Remove list styles from ul and ol elements */
-ul,
-ol {
-  list-style: none;
+/* General styles */
+
+body {
+  color: var(--text);
+  font-family: var(--font);
+  background-color: var(--background);
 }
 
-/* Set the default link color */
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem 5rem 2rem;
+  align-items: center;
+}
+
+/* Text styles */
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  padding: 1vh;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+  font-size: 1rem;
 }
 
-/* Set the default text color and font family */
-body {
-  color: #070707;
-  font-family: 'Poppins', sans-serif;
+ul {
+  list-style: none;
 }
+
+/* Header / Navbar */
 
 header {
-  height: 30px;
   display: flex;
   flex-direction: row;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-inline-start: 40px;
+  height: 1.5rem;
+  margin: 1.5rem 3rem 1.5rem 3rem;
   justify-content: space-between;
-  margin-right: 2%;
   align-items: center;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--nav);
 }
 
 header img {
-  height: 50px;
-  width: 50px;
-  margin-left: 2%;
+  height: 3rem;
+  width: 3rem;
 }
 
 header ul {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
-  font-weight: 400;
-  font-size: 1rem;
+  gap: 1.5rem;
 }
 
 .links-out {
   color: rgb(119, 119, 119);
 }
 
+/* Cards style */
+
+section.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 1.5rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background: var(--card);
+  border-radius: 1.5rem;
+  border: transparent;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 15rem;
+  height: 12rem;
+  margin: 4rem 0.8rem 0.8rem 0.8rem;
+  padding: 1rem;
+  transition: all;
+  transition-duration: 0.7s;
+}
+
+.card:hover {
+  scale: 1.05;
+}
+
+.card-image,
+.card-header,
+.card-body,
+.card-button {
+  display: inherit;
+  width: 100%;
+  justify-content: center;
+}
+
+img.card-image {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -90%);
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+button[type=button] {
+  color: white;
+  background-color: royalblue;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+  margin: auto;
+  padding: 1rem 2rem 1rem 2rem;
+  border: none;
+  transition: all 0.1s linear;
+  box-shadow: 0.5rem 1rem 1rem -1rem rgba(0, 0, 0, 0.5);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button .border {
+  position: absolute;
+  border: 0.15em solid royalblue;
+  transition: all 0.3s 0.08s linear;
+  top: 50%;
+  left: 50%;
+  width: 8rem;
+  height: 2rem;
+  transform: translate(-50%, -50%);
+}
+
+button:hover .border {
+  display: block;
+  width: 9rem;
+  height: 3.5rem;
+}
+
+.full-rounded {
+  border-radius: 2rem;
+}
+
+/* Footer */
+
 footer {
   display: flex;
-  height: 130px;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  background-color: rgb(223, 223, 223);
+  align-items: center;
+  height: 5rem;
+  background-color: var(--footer);
+  margin-top: auto;
+  width: 100%;
 }
 
 footer a {
