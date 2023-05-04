@@ -2,14 +2,15 @@
 
 // Set the url for the API
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
+const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/likes/'
 
 // Render results ------------------------------------------------------------------------------
 
 const renderPokemons = (listOfPokemons) => {
   let pokemonDetail = '';
-  listOfPokemons.forEach((element) => {
+  listOfPokemons.forEach((element, index) => {
     pokemonDetail += `
-    <div class="card">
+    <div class="card" id="${index + 1}">
         <img class="card-image" src="${element.url}" alt="${element.name}">
       <div class="card-header">
         <h3>${element.name}</h3>
@@ -25,13 +26,47 @@ const renderPokemons = (listOfPokemons) => {
         <button type="button" class="full-rounded" id="comment">Comments<div class="border full-rounded"></div></button>
       </div>
     </div>
+    <div class="popup hidden">
+    <div class="popup-header">
+      <h2>${element.name}</h2>
+      <button class="close-popup">X</button>
+    </div>
+    <div class="popup-body">
+      <img src="${element.url}" alt="${element.name}">
+      <div class="pokemon-info">
+        <p><strong>Type:</strong> ${element.type}</p>
+        <p><strong>Height:</strong> ${element.height}</p>
+        <p><strong>Weight:</strong> ${element.weight}</p>
+        
+      </div>
+    </div>
+  </div>
     `;
   });
 
   // call the father element and insert the data
-  const section = document.querySelector('section.cards');
-  section.innerHTML = pokemonDetail;
+  
+  const section = document.querySelector('.cards');
+  const divElement = document.createElement('div');
+  divElement.classList.add('poke');
+  divElement.innerHTML = pokemonDetail;
+  section.appendChild(divElement);
 };
+
+  // add event listener to each card to show the corresponding popup
+  const cards = document.querySelectorAll('.popup');
+  cards.forEach((card) => {
+    const popup = card.nextElementSibling;
+    const closeBtn = popup.querySelector('.close-popup');
+    
+    card.addEventListener('click', () => {
+      popup.classList.remove('hidden');
+    });
+  
+    closeBtn.addEventListener('click', () => {
+      popup.classList.add('hidden');
+    });
+  });  
 
 const getData = async (callback) => {
   try {
@@ -46,10 +81,10 @@ const getData = async (callback) => {
     const promisesArray = getPokemonBaseData.map(async (i) => {
       const res = await fetch(i.url);
       const data = await res.json();
-      return data.sprites.front_default;
+      return data;
     });
 
-    const urlsImgArray = await Promise.all(promisesArray);
+    const urlsInfoArray = await Promise.all(promisesArray);
 
     // Construct the new array
     const listOfPokemons = [];
@@ -57,13 +92,16 @@ const getData = async (callback) => {
     for (let i = 0; i < getPokemonBaseData.length; i += 1) {
       listOfPokemons[i] = {
         name: getPokemonBaseData[i].name,
-        url: urlsImgArray[i],
+        url: urlsInfoArray[i].sprites.front_default,
+        type: urlsInfoArray[i].types[0].type,
+        height: urlsInfoArray[i].height,
+        weight: urlsInfoArray[i].weight,
       };
     }
     return callback(listOfPokemons);
   } catch (error) {
     return error;
   }
-};
+};0
 
 getData(renderPokemons);

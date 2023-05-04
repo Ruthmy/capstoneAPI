@@ -207,3 +207,7 @@ footer {
 footer a {
   text-decoration: underline;
 }
+
+.hidden {
+  display: none;
+}
