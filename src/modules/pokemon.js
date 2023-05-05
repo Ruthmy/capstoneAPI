@@ -30,7 +30,7 @@ const renderPokemons = async (listOfPokemons) => {
     const item = likesData.find((item) => item.item_id === `pk-${index + 1}`);
     likes = item ? item.likes : 0;
     pokemonDetail += `
-    <div class="card" id="${index + 1}">
+    <div class="card" id="pk-${index + 1}">
       <img class="card-image" src="${element.url}" alt="${element.name}">
       <div class="card-header">
         <h3>${element.name}</h3>
@@ -39,40 +39,48 @@ const renderPokemons = async (listOfPokemons) => {
         <p></p>
       </div>
       <div class="card-button">
+      <div clas="card-button-like">
         <button class="like"><svg viewBox="0 0 17.503 15.625" height="20.625" width="20.503" xmlns="http://www.w3.org/2000/svg" class="icon">
-          <path transform="translate(0 0)" d="M8.752,15.625h0L1.383,8.162a4.824,4.824,0,0,1,0-6.762,4.679,4.679,0,0,1,6.674,0l.694.7.694-.7a4.678,4.678,0,0,1,6.675,0,4.825,4.825,0,0,1,0,6.762L8.752,15.624ZM4.72,1.25A3.442,3.442,0,0,0,2.277,2.275a3.562,3.562,0,0,0,0,5l6.475,6.556,6.475-6.556a3.563,3.563,0,0,0,0-5A3.443,3.443,0,0,0,12.786,1.25h-.01a3.415,3.415,0,0,0-2.443,1.038L8.752,3.9,7.164,2.275A3.442,3.442,0,0,0,4.72,1.25Z" id="Fill"></path>
-          </svg>
+        <path transform="translate(0 0)" d="M8.752,15.625h0L1.383,8.162a4.824,4.824,0,0,1,0-6.762,4.679,4.679,0,0,1,6.674,0l.694.7.694-.7a4.678,4.678,0,0,1,6.675,0,4.825,4.825,0,0,1,0,6.762L8.752,15.624ZM4.72,1.25A3.442,3.442,0,0,0,2.277,2.275a3.562,3.562,0,0,0,0,5l6.475,6.556,6.475-6.556a3.563,3.563,0,0,0,0-5A3.443,3.443,0,0,0,12.786,1.25h-.01a3.415,3.415,0,0,0-2.443,1.038L8.752,3.9,7.164,2.275A3.442,3.442,0,0,0,4.72,1.25Z" id="Fill"></path>
+        </svg>
         </button>
+        <p class="pk-${index + 1}">${likes}</p>
+      </div>
         <button type="button" class="full-rounded comment-btn" id="comment">Comments</button>
       </div>
     </div>
+    
+
+    <!-- Pop up window -->
+
+    
     <div class="popup hidden">
-    <div class="popup-header">
-    <h2>${element.name}</h2>
-    <button class="close-popup">X</button>
-    </div>
+      <div class="popup-header">
+        <h2>${element.name}</h2>
+        <button class="close-popup">X</button>
+      </div>
       <div class="popup-body">
         <img src="${element.url}" alt="${element.name}">
         <div class="pokemon-info">
           <p><strong>Type:</strong> ${element.type}</p>
           <p><strong>Height:</strong> ${element.height}</p>
           <p><strong>Weight:</strong> ${element.weight}</p>
-          </div>
-          <div class="comment-section">
+        </div>
+        <div class="comment-section">
           <h3>Comments</h3>
           <ul class="comments-list"></ul>
           <form class="comment-form">
-          <div class="comme">
+            <div class="comme">
               <div>
-                  <label for="username">Name:</label>
-                  <input type="text" id="username" required>
+                <label for="username">Name:</label>
+                <input type="text" id="username" required>
               </div>
-            <div>
+              <div>
                 <label for="comments">Comment:</label>
                 <textarea id="Comments" rows="4" required></textarea>
-                </div>
-                </div>
-                <button type="submit">Add Comments</button>
+              </div>
+            </div>
+            <button type="submit">Add Comments</button>
           </form>
         </div>
       </div>
@@ -86,6 +94,32 @@ const renderPokemons = async (listOfPokemons) => {
   divElement.innerHTML = pokemonDetail;
   section.appendChild(divElement);
 
+  // This section contains the like buttons functionality
+  const likeButtons = document.querySelectorAll('.like');
+
+  likeButtons.forEach((button) => {
+    button.addEventListener('click', async (event) => {
+      const pokemonCard = event.target.closest('.card');
+      const pokemonId = pokemonCard.getAttribute('id');
+      const requestBody = JSON.stringify({ item_id: pokemonId });
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: requestBody,
+        redirect: 'follow',
+      };
+      fetch(urlInvolvementAPI, requestOptions)
+        .then((response) => response.text())
+        .catch((error) => error);
+
+      // This part updates the number of likes displayed on the screen.
+      const pElement = document.querySelector(`.${pokemonId}`);
+      const newAmountOfLikes = await updateLikeNumber(pokemonId);
+      pElement.textContent = newAmountOfLikes + 1;
+    });
+  });
+
+  // This section contains the comment buttons functionality
   const cardsContainer = document.querySelectorAll('.comment-btn');
 
   cardsContainer.forEach((item) => item.addEventListener('click', (event) => {
@@ -102,20 +136,22 @@ const renderPokemons = async (listOfPokemons) => {
 
 const getData = async (callback) => {
   try {
-    const response = await fetch(urlAPI, {
+    // Get the pokemon data from the pokeapi endpoint
+    const responsePokeAPI = await fetch(urlAPI, {
       method: 'GET',
     });
-    const data = await response.json();
+    const dataPokemon = await responsePokeAPI.json();
 
-    // Names and ids
-    const getPokemonBaseData = data.results;
+    // Get the pokemon's names and ids
+    const getPokemonBaseData = dataPokemon.results;
 
     const promisesArray = getPokemonBaseData.map(async (i) => {
       const res = await fetch(i.url);
-      const data = await res.json();
-      return data;
+      const dataPokemon = await res.json();
+      return dataPokemon;
     });
 
+    // Create an normal array from the promises array
     const urlsInfoArray = await Promise.all(promisesArray);
 
     // Construct the new array
