@@ -207,3 +207,139 @@ footer {
 footer a {
   text-decoration: underline;
 }
+
+.hidden {
+  display: none;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  height: 80%;
+  width: 50%;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-body img {
+  width: fit-content;
+  height: 422px;
+  align-self: center;
+}
+
+.popup-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.pokemon-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.popup h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.popup p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.popup button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-section form button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background-color: #0d5410;
+}
+
+.comment-section {
+  margin-top: 20px;
+}
+
+.comment-section h3 {
+  margin-top: 0;
+}
+
+.comment-section form {
+  margin-top: 10px;
+  display: flex;
+}
+
+input {
+  margin-left: 31px;
+}
+
+input,
+textarea {
+  width: 300px;
+  border: 2px solid #070707;
+  height: 30px;
+}
+
+.comment-section form input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.comments {
+  margin-top: 10px;
+}
+
+.comment {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.comment-form {
+  display: flex;
+}
+
+.comment p {
+  margin: 0;
+}
+
+.comment .comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#Comments {
+  text-align: center;
+}
+
+.comme {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
