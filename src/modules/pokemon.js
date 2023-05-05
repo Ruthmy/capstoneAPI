@@ -11,51 +11,18 @@ const getLikesData = async () => {
   return data;
 };
 
-// Función para actualizar los likes de un Pokemon
-const updatePokemonLikes = async (pokemonId, likes) => {
-  const requestBody = JSON.stringify({ item_id: pokemonId });
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: requestBody,
-    redirect: 'follow',
-  };
-  await fetch(urlInvolvementAPI, requestOptions);
-  const pElement = document.querySelector(`#pk-${pokemonId} p`);
-  pElement.textContent = likes;
-};
-
-/*
-const pElement = document.querySelector(`p.${pokemonId}`);
-      const updatedLikes = await getLikesData();
-      console.log(updatedLikes);
-      const item = updatedLikes.find((item) => item.item_id === pokemonId);
-      console.log(item);
-      // = item.likes;
-      if (item) {
-        pElement.textContent = item.likes;
-      }
-
-*/
-
+// Function to update the amount of likes for a specific pokemon
 const updateLikeNumber = async (pokemonId) => {
   const likesData = await getLikesData();
   const item = likesData.find((item) => item.item_id === pokemonId);
-  console.log(item.likes);
-  return item.likes;
-  /*
-  const pokeElement = document.querySelector(`.${pokemonId}`);
-  console.log(pokeElement);
-      pElement.textContent = `${data.likes} likes`;
-  */
+  const likes = item ? item.likes : 0;
+  return likes;
 };
-
-// updateLikeNumber('pk-1');
 
 // Render results ------------------------------------------------------------------------------
 
 const renderPokemons = async (listOfPokemons) => {
-  // Gets the likes of each Pokemon
+  // Get pokemon likes
   const likesData = await getLikesData();
   let likes = 0;
   let pokemonDetail = '';
@@ -74,7 +41,7 @@ const renderPokemons = async (listOfPokemons) => {
       </div>
       <div class="card-button">
       <div clas="card-button-like">
-        <button class="like" data-target="${index + 1}"><svg viewBox="0 0 17.503 15.625" height="20.625" width="20.503" xmlns="http://www.w3.org/2000/svg" class="icon">
+        <button class="like"><svg viewBox="0 0 17.503 15.625" height="20.625" width="20.503" xmlns="http://www.w3.org/2000/svg" class="icon">
           <path transform="translate(0 0)" d="M8.752,15.625h0L1.383,8.162a4.824,4.824,0,0,1,0-6.762,4.679,4.679,0,0,1,6.674,0l.694.7.694-.7a4.678,4.678,0,0,1,6.675,0,4.825,4.825,0,0,1,0,6.762L8.752,15.624ZM4.72,1.25A3.442,3.442,0,0,0,2.277,2.275a3.562,3.562,0,0,0,0,5l6.475,6.556,6.475-6.556a3.563,3.563,0,0,0,0-5A3.443,3.443,0,0,0,12.786,1.25h-.01a3.415,3.415,0,0,0-2.443,1.038L8.752,3.9,7.164,2.275A3.442,3.442,0,0,0,4.72,1.25Z" id="Fill"></path>
           </svg>
         </button>
@@ -106,28 +73,15 @@ const renderPokemons = async (listOfPokemons) => {
       };
       fetch(urlInvolvementAPI, requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
         .catch((error) => error);
-      // updateLikeNumber(pokemonId);
+
+      // This part updates the number of likes displayed on the screen.
       const pElement = document.querySelector(`.${pokemonId}`);
-      console.log(pElement);
       const newAmountOfLikes = await updateLikeNumber(pokemonId);
-      console.log(`${newAmountOfLikes} jhvjhmch`);
       pElement.textContent = newAmountOfLikes + 1;
-      /*
-      */
     });
   });
 };
-
-//   const pElements = document.querySelectorAll("p[data-item-id]");
-
-// likesData.forEach((data) => {
-//   const pElement = Array.from(pElements).find((p) => p.dataset.itemId === data.item_id);
-//   if (pElement) {
-//     pElement.textContent = `${data.likes} likes`;
-//   }
-// });
 
 const getData = async (callback) => {
   try {
