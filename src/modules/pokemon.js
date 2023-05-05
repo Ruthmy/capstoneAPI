@@ -2,13 +2,33 @@
 
 // Set the url for the API
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
-// const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/likes/';
+const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/likes/';
+
+// Function to get the likes of each Pokemon
+const getLikesData = async () => {
+  const response = await fetch(urlInvolvementAPI, { method: 'GET' });
+  const data = await response.json();
+  return data;
+};
+
+// Function to update the amount of likes for a specific pokemon
+const updateLikeNumber = async (pokemonId) => {
+  const likesData = await getLikesData();
+  const item = likesData.find((item) => item.item_id === pokemonId);
+  const likes = item ? item.likes : 0;
+  return likes;
+};
 
 // Render results ------------------------------------------------------------------------------
 
-const renderPokemons = (listOfPokemons) => {
+const renderPokemons = async (listOfPokemons) => {
+  // Get pokemon likes
+  const likesData = await getLikesData();
+  let likes = 0;
   let pokemonDetail = '';
   listOfPokemons.forEach((element, index) => {
+    const item = likesData.find((item) => item.item_id === `pk-${index + 1}`);
+    likes = item ? item.likes : 0;
     pokemonDetail += `
     <div class="card" id="${index + 1}">
       <img class="card-image" src="${element.url}" alt="${element.name}">
