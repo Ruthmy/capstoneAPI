@@ -88,11 +88,8 @@ const renderPokemons = async (listOfPokemons) => {
     `;
   });
   // call the father element and insert the data
-  const section = document.querySelector('.cards');
-  const divElement = document.createElement('div');
-  divElement.classList.add('poke');
-  divElement.innerHTML = pokemonDetail;
-  section.appendChild(divElement);
+  const section = document.querySelector('section.cards');
+  section.innerHTML = pokemonDetail;
 
   // This section contains the like buttons functionality
   const likeButtons = document.querySelectorAll('.like');
