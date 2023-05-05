@@ -27,25 +27,36 @@ const renderPokemons = (listOfPokemons) => {
       </div>
     </div>
     <div class="popup hidden">
-    <div class="popup-header">
       <h2>${element.name}</h2>
       <button class="close-popup">X</button>
-    </div>
-    <div class="popup-body">
-      <img src="${element.url}" alt="${element.name}">
-      <div class="pokemon-info">
-        <p><strong>Type:</strong> ${element.type}</p>
-        <p><strong>Height:</strong> ${element.height}</p>
-        <p><strong>Weight:</strong> ${element.weight}</p>
-        
+      <div class="popup-body">
+        <img src="${element.url}" alt="${element.name}">
+        <div class="pokemon-info">
+          <p><strong>Type:</strong> ${element.type}</p>
+          <p><strong>Height:</strong> ${element.height}</p>
+          <p><strong>Weight:</strong> ${element.weight}</p>
+          <div class="comment-section">
+          <h3>Comments</h3>
+          <ul class="comments-list"></ul>
+          <form class="comment-form">
+              <div>
+                  <label for="username">Name:</label>
+                  <input type="text" id="username" required>
+              </div>
+            <div>
+                <label for="comment">Comment:</label>
+                <textarea id="comment" rows="4" required></textarea>
+                <button type="submit">Add Comment</button>
+            </div>
+          </form>
+        </div>
+        </div>
+      </div>
       </div>
     </div>
-  </div>
     `;
   });
-
   // call the father element and insert the data
-  
   const section = document.querySelector('.cards');
   const divElement = document.createElement('div');
   divElement.classList.add('poke');
@@ -53,20 +64,49 @@ const renderPokemons = (listOfPokemons) => {
   section.appendChild(divElement);
 };
 
-  // add event listener to each card to show the corresponding popup
-  const cards = document.querySelectorAll('.popup');
-  cards.forEach((card) => {
-    const popup = card.nextElementSibling;
-    const closeBtn = popup.querySelector('.close-popup');
-    
-    card.addEventListener('click', () => {
-      popup.classList.remove('hidden');
-    });
-  
-    closeBtn.addEventListener('click', () => {
-      popup.classList.add('hidden');
-    });
-  });  
+// add event listener to each card to show the corresponding popup
+// cardsContainer.addEventListener('click', function (event) {
+//   if (event.target.classList.contains('card')) {
+
+//     const cards = document.querySelectorAll('.popup');
+//     cards.forEach((card) => {
+//       card.classList.remove('hidden');
+//     })
+//     console.log('cards');
+//     // try printing cards, it should print an array of cards
+//     // cards.forEach((card) => {
+//     //   const popup = card.nextElementSibling;
+//     //   const closeBtn = popup.querySelector('.close-popup');
+      
+//     //   card.addEventListener('click', () => {
+//     //     popup.classList.remove('hidden');
+//     //   });
+
+//     //   closeBtn.addEventListener('click', () => {
+//     //     popup.classList.add('hidden');
+//     //   });
+//     // });
+//   }
+// });
+
+const cardsContainer = document.querySelector('.cards');
+
+cardsContainer.addEventListener('click', function(event) {
+  const popup = event.target.nextElementSibling;
+  if (event.target.classList.contains('card')) {
+    popup.classList.toggle('hidden');
+  }
+  if (event.target.classList.contains('close-popup')) {
+      popup.classList.toggle('hidden');
+  }
+});
+
+// const commentBtns = document.querySelectorAll('.full-rounded');
+// commentBtns.forEach((commentBtn) => {
+//   commentBtn.addEventListener('click', (e) => {
+//     console.log('working');
+//   })
+// })
 
 const getData = async (callback) => {
   try {
