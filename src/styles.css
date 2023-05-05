@@ -64,6 +64,10 @@ p {
   font-size: 1rem;
 }
 
+p[class*="pk-"]{
+  text-align: center;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -72,6 +76,10 @@ a {
 
 ul {
   list-style: none;
+}
+
+samp {
+  font-family: var(--nav);
 }
 
 /* Header / Navbar */
@@ -162,32 +170,7 @@ button[type=button] {
   margin: auto;
   padding: 1rem 2rem 1rem 2rem;
   border: none;
-  transition: all 0.1s linear;
   box-shadow: 0.5rem 1rem 1rem -1rem rgba(0, 0, 0, 0.5);
-}
-
-button:active {
-  transform: scale(0.95);
-}
-
-button .border {
-  position: absolute;
-  border: 0.15em solid royalblue;
-  transition: all 0.3s 0.08s linear;
-  top: 50%;
-  left: 50%;
-  width: 8rem;
-  height: 2rem;
-  transform: translate(-50%, -50%);
-}
-
-button:hover .border {
-  display: block;
-  width: 9rem;
-  height: 3.5rem;
-}
-
-.full-rounded {
   border-radius: 2rem;
 }
 
