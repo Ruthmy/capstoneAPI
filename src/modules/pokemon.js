@@ -11,6 +11,47 @@ const getLikesData = async () => {
   return data;
 };
 
+// Función para actualizar los likes de un Pokemon
+const updatePokemonLikes = async (pokemonId, likes) => {
+  const requestBody = JSON.stringify({ item_id: pokemonId });
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: requestBody,
+    redirect: 'follow',
+  };
+  await fetch(urlInvolvementAPI, requestOptions);
+  const pElement = document.querySelector(`#pk-${pokemonId} p`);
+  pElement.textContent = likes;
+};
+
+/*
+const pElement = document.querySelector(`p.${pokemonId}`);
+      const updatedLikes = await getLikesData();
+      console.log(updatedLikes);
+      const item = updatedLikes.find((item) => item.item_id === pokemonId);
+      console.log(item);
+      // = item.likes;
+      if (item) {
+        pElement.textContent = item.likes;
+      }
+
+*/
+
+const updateLikeNumber = async (pokemonId) => {
+  const likesData = await getLikesData();
+  const item = likesData.find((item) => item.item_id === pokemonId);
+  console.log(item.likes);
+  return item.likes;
+  /*
+  const pokeElement = document.querySelector(`.${pokemonId}`);
+  console.log(pokeElement);
+      pElement.textContent = `${data.likes} likes`;
+  */
+};
+
+// updateLikeNumber('pk-1');
+
 // Render results ------------------------------------------------------------------------------
 
 const renderPokemons = async (listOfPokemons) => {
@@ -20,11 +61,7 @@ const renderPokemons = async (listOfPokemons) => {
   let pokemonDetail = '';
   listOfPokemons.forEach((element, index) => {
     const item = likesData.find((item) => item.item_id === `pk-${index + 1}`);
-    if (item) {
-      likes = item.likes;
-    } else {
-      likes = 0;
-    }
+    likes = item ? item.likes : 0;
 
     pokemonDetail += `
     <div class="card" id="pk-${index + 1}">
@@ -56,7 +93,7 @@ const renderPokemons = async (listOfPokemons) => {
   // This section contains the like buttons functionality
   const likeButtons = document.querySelectorAll('.like');
 
-  likeButtons.forEach((button, index) => {
+  likeButtons.forEach((button) => {
     button.addEventListener('click', async (event) => {
       const pokemonCard = event.target.closest('.card');
       const pokemonId = pokemonCard.getAttribute('id');
@@ -71,14 +108,17 @@ const renderPokemons = async (listOfPokemons) => {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => error);
-      const pElements = document.querySelector(`p.${pokemonId}`);
-      const likesData = await getLikesData();
-      console.log(pElements);
+      // updateLikeNumber(pokemonId);
+      const pElement = document.querySelector(`.${pokemonId}`);
+      console.log(pElement);
+      const newAmountOfLikes = await updateLikeNumber(pokemonId);
+      console.log(`${newAmountOfLikes} jhvjhmch`);
+      pElement.textContent = newAmountOfLikes + 1;
+      /*
+      */
     });
   });
 };
-
-
 
 //   const pElements = document.querySelectorAll("p[data-item-id]");
 
