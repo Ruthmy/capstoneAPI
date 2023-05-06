@@ -64,7 +64,7 @@ p {
   font-size: 1rem;
 }
 
-p[class*="pk-"]{
+p[class*="pk-"] {
   text-align: center;
 }
 
