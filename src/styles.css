@@ -213,7 +213,8 @@ footer a {
 }
 
 .popup {
-  position: absolute;
+  display: f;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -268,7 +269,7 @@ footer a {
 }
 
 .comment-section form button {
-  background-color: #333;
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 10px;
