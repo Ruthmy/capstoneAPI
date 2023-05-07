@@ -6,6 +6,11 @@ const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.ne
 
 // Get the Comments from the API
 
+function amountOfComments(totalComments, pokemonID) {
+  const spanElement = document.querySelector(`.amount-${pokemonID}`);
+  spanElement.textContent = totalComments;
+}
+
 const getComments = async (pokemonID) => {
   const requestOptions = {
     method: 'GET',
@@ -16,18 +21,13 @@ const getComments = async (pokemonID) => {
   const data = await response.json();
   const comments = data[0];
 
-  const amountOfComments = (totalComments) => {
-    const spanElement = document.querySelector(`.amount-${pokemonID}`);
-    spanElement.textContent = totalComments;
-  };
-
   if (data.length === 0) {
-    amountOfComments(1);
+    amountOfComments(1, pokemonID);
   } else if (data.length > 0) {
     const totalComments = data.length;
-    amountOfComments(totalComments);
+    amountOfComments(totalComments, pokemonID);
   } else {
-    amountOfComments(0);
+    amountOfComments(0, pokemonID);
   }
 
   let commentsList;
@@ -281,3 +281,5 @@ const getData = async (callback) => {
 };
 
 getData(renderPokemons);
+
+module.exports = { amountOfComments };
