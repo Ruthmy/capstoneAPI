@@ -290,6 +290,7 @@ footer a {
 .comment-section form {
   margin-top: 10px;
   display: flex;
+  gap: 15px;
 }
 
 input {
@@ -303,10 +304,6 @@ textarea {
   height: 30px;
 }
 
-.comment-section form input {
-  flex: 1;
-  margin-right: 10px;
-}
 
 .comments {
   margin-top: 10px;
@@ -338,7 +335,8 @@ textarea {
 
 .comme {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 15px;
   align-items: center;
   justify-content: center;
   text-align: center;

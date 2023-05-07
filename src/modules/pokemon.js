@@ -45,6 +45,12 @@ const updateLikeNumber = async (pokemonId) => {
   return likes;
 };
 
+// This part updates the total pokemon number in the nav.
+const amountOfPokemons = (listOfPokemons) => {
+  const sampElement = document.querySelector('samp');
+  sampElement.textContent = listOfPokemons;
+};
+
 // Render results ------------------------------------------------------------------------------
 
 const renderPokemons = async (listOfPokemons) => {
@@ -195,6 +201,7 @@ const getData = async (callback) => {
         weight: urlsInfoArray[i].weight,
       };
     }
+    amountOfPokemons(listOfPokemons.length);
     return callback(listOfPokemons);
   } catch (error) {
     return error;
