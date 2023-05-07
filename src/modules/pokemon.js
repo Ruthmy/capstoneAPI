@@ -5,6 +5,7 @@ const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
 // Get the Comments from the API
+
 const getComments = async (pokemonID) => {
   const requestOptions = {
     method: 'GET',
@@ -158,7 +159,9 @@ const renderPokemons = async (listOfPokemons) => {
           <p><strong>Weight:</strong> ${element.weight}</p>
         </div>
         <div class="comment-section">
+
           <h3>Comments (<span class="amount-pk-${index + 1}"></span>)</h3>
+
           <ul class="comments-list" data-target-modal="pk-${index + 1}"  id="comments-list-pk-${index + 1}">
           
           <!-- COMMENTS HERE -->

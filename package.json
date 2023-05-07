@@ -76,6 +76,7 @@
     "autoprefixer": "^9.8.8",
     "available-typed-arrays": "^1.0.5",
     "axe-core": "^4.7.0",
+    "axios": "^1.4.0",
     "bail": "^1.0.5",
     "balanced-match": "^1.0.2",
     "base64-js": "^1.5.1",
