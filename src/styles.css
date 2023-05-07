@@ -206,7 +206,7 @@ footer a {
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   height: 80%;
-  width: 50%;
+  width: 65%;
 }
 
 .popup-header {
@@ -216,7 +216,7 @@ footer a {
 
 .popup-body img {
   width: fit-content;
-  height: 422px;
+  height: 300px;
   align-self: center;
 }
 
@@ -325,4 +325,8 @@ textarea {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.comme div {
+ display: flex;
 }

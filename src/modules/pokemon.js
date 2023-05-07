@@ -2,11 +2,41 @@
 
 // Set the url for the API
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
-const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/likes/';
+const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
+
+const getComments = async (pokemonID) => {
+  const requestOptions = {
+    method: 'GET',
+    redirect: 'follow',
+  };
+
+  const response = await fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptions);
+  const data = await response.json();
+  const commentsCounter = data.length;
+  const comments = data[0];
+
+  let commentsList;
+  if (comments !== undefined) {
+    commentsList = data.map((comment) => `
+        <li>
+          <p>${comment.comment}</p>
+          <p><em>${comment.username} - ${comment.creation_date}</em></p>
+        </li>
+      `).join('');
+  } else {
+    commentsList = '<li>No comments yet</li>';
+  }
+
+  const commentsListElement = document.getElementById(`comments-list-${pokemonID}`);
+  commentsListElement.innerHTML = commentsList;
+
+  const commentsCounterElement = document.querySelector(`#comments-counter-${pokemonID} .text-danger`);
+  commentsCounterElement.textContent = commentsCounter.toString();
+};
 
 // Function to get the likes of each Pokemon
 const getLikesData = async () => {
-  const response = await fetch(urlInvolvementAPI, { method: 'GET' });
+  const response = await fetch(`${urlInvolvementAPI}likes/`, { method: 'GET' });
   const data = await response.json();
   return data;
 };
@@ -35,6 +65,7 @@ const renderPokemons = async (listOfPokemons) => {
   listOfPokemons.forEach((element, index) => {
     const item = likesData.find((item) => item.item_id === `pk-${index + 1}`);
     likes = item ? item.likes : 0;
+
     pokemonDetail += `
     <div class="card" id="pk-${index + 1}">
       <img class="card-image" src="${element.url}" alt="${element.name}">
@@ -60,7 +91,7 @@ const renderPokemons = async (listOfPokemons) => {
     <!-- Pop up window -->
 
     
-    <div class="popup hidden">
+    <div class="popup hidden" id="${index + 1}" data-target-modal="pk-${index + 1}">
       <div class="popup-header">
         <h2>${element.name}</h2>
         <button class="close-popup">X</button>
@@ -73,8 +104,10 @@ const renderPokemons = async (listOfPokemons) => {
           <p><strong>Weight:</strong> ${element.weight}</p>
         </div>
         <div class="comment-section">
-          <h3>Comments</h3>
-          <ul class="comments-list"></ul>
+        <h3>Comments (<span class="text-danger" id="comments-counter-pk-${index + 1}">0</span>)</h3>
+          <ul class="comments-list" id="comments-list-pk-${index + 1}">
+           <!-- Comments here -->
+          </ul>
           <form class="comment-form">
             <div class="comme">
               <div>
@@ -86,8 +119,8 @@ const renderPokemons = async (listOfPokemons) => {
                 <textarea id="Comments" rows="4" required></textarea>
               </div>
             </div>
+            </form>
             <button type="submit">Add Comments</button>
-          </form>
         </div>
       </div>
     </div>
@@ -111,7 +144,7 @@ const renderPokemons = async (listOfPokemons) => {
         body: requestBody,
         redirect: 'follow',
       };
-      fetch(urlInvolvementAPI, requestOptions)
+      fetch(`${urlInvolvementAPI}likes/`, requestOptions)
         .then((response) => response.text())
         .catch((error) => error);
 
@@ -127,6 +160,7 @@ const renderPokemons = async (listOfPokemons) => {
 
   cardsContainer.forEach((item) => item.addEventListener('click', (event) => {
     const popup = event.target.parentNode.parentNode.nextElementSibling;
+    getComments(`pk-${popup.id}`);
     if (event.target.classList.contains('comment-btn')) {
       popup.classList.toggle('hidden');
     }
