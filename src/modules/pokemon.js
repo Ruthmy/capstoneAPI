@@ -4,12 +4,6 @@
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
-// This part updates the total pokemon number in the nav.
-const amountOfComments = (totalComments) => {
-  const spanElement = document.querySelector('.amount');
-  spanElement.textContent = totalComments;
-};
-
 // Get the Comments from the API
 const getComments = async (pokemonID) => {
   const requestOptions = {
