@@ -4,6 +4,13 @@
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
+// Get the Comments from the API
+
+function amountOfComments(totalComments, pokemonID) {
+  const spanElement = document.querySelector(`.amount-${pokemonID}`);
+  spanElement.textContent = totalComments;
+}
+
 const getComments = async (pokemonID) => {
   const requestOptions = {
     method: 'GET',
@@ -11,6 +18,58 @@ const getComments = async (pokemonID) => {
   };
 
   const response = await fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptions);
+  const data = await response.json();
+  const comments = data[0];
+
+  if (data.length === 0) {
+    amountOfComments(1, pokemonID);
+  } else if (data.length > 0) {
+    const totalComments = data.length;
+    amountOfComments(totalComments, pokemonID);
+  } else {
+    amountOfComments(0, pokemonID);
+  }
+
+  let commentsList;
+  if (comments !== undefined) {
+    commentsList = data.map((comment) => `
+        <li>
+          <p>${comment.comment}</p>
+          <p><em>${comment.username} - ${comment.creation_date}</em></p>
+        </li>
+      `).join('');
+  } else {
+    commentsList = '<li>No comments yet</li>';
+  }
+
+  const commentsListElement = document.getElementById(`comments-list-${pokemonID}`);
+  commentsListElement.innerHTML = commentsList;
+};
+
+// Create a new comment
+const sendComment = async (pokemonID) => {
+  const commentForm = document.getElementById(`comment-form-${pokemonID}`);
+  const usernameInput = commentForm.querySelector(`#username-${pokemonID}`);
+  const commentInput = commentForm.querySelector(`#comment-${pokemonID}`);
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      item_id: pokemonID,
+      username: usernameInput.value,
+      comment: commentInput.value,
+    }),
+  };
+
+  await fetch(`${urlInvolvementAPI}comments?item_id=${pokemonID}`, requestOptions);
+  // const data = await response.json();
+
+  const requestOptionsGet = {
+    method: 'GET',
+    redirect: 'follow',
+  };
+
+  const response = await fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptionsGet);
   const data = await response.json();
   const comments = data[0];
 
@@ -95,30 +154,34 @@ const renderPokemons = async (listOfPokemons) => {
       <div class="popup-body">
         <img src="${element.url}" alt="${element.name}">
         <div class="pokemon-info">
-          <p><strong>Type:</strong> ${element.type}</p>
+          <p><strong>Type:</strong> ${element.type.name}</p>
           <p><strong>Height:</strong> ${element.height}</p>
           <p><strong>Weight:</strong> ${element.weight}</p>
         </div>
         <div class="comment-section">
-          <h3>Comments</h3>
+
+          <h3>Comments (<span class="amount-pk-${index + 1}"></span>)</h3>
+
           <ul class="comments-list" data-target-modal="pk-${index + 1}"  id="comments-list-pk-${index + 1}">
           
           <!-- COMMENTS HERE -->
           
           </ul>
-          <form class="comment-form">
+        </div>
+        <div class="form-section">
+          <form class="comment-form" id="comment-form-pk-${index + 1}">
             <div class="comme">
               <div>
                 <label for="username">Name:</label>
-                <input type="text" id="username" required>
+                <input type="text" id="username-pk-${index + 1}" name="username" required>
               </div>
               <div>
                 <label for="comments">Comment:</label>
-                <textarea id="Comments" rows="4" required></textarea>
+                <textarea id="comment-pk-${index + 1}" rows="4" name="comment" required></textarea>
               </div>
             </div>
-            </form>
-            <button type="submit">Add Comments</button>
+          </form>
+            <button type="button" class="form-button" id="pk-${index + 1}">Add Comments</button>
         </div>
       </div>
     </div>
@@ -167,6 +230,15 @@ const renderPokemons = async (listOfPokemons) => {
       popup.classList.add('hidden');
     });
   }));
+
+  const addCommentButtons = document.querySelectorAll('.form-button');
+
+  addCommentButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      sendComment(button.id);
+      // getComments(button.id);
+    });
+  });
 };
 
 const getData = async (callback) => {
@@ -209,3 +281,5 @@ const getData = async (callback) => {
 };
 
 getData(renderPokemons);
+
+module.exports = { amountOfComments };
