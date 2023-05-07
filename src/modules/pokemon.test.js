@@ -14,4 +14,3 @@ describe('amountOfComments', () => {
     expect(spanElement.textContent).toBe('3');
   });
 });
-
