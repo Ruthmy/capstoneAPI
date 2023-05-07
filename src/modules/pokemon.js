@@ -4,21 +4,31 @@
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
-// `${urlInvolvementAPI}comments/`
-
 const getComments = async (pokemonID) => {
   const requestOptions = {
     method: 'GET',
     redirect: 'follow',
   };
 
-  fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
-};
+  const response = await fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptions);
+  const data = await response.json();
+  const comments = data[0];
 
-// getComments('pk-1');
+  let commentsList;
+  if (comments !== undefined) {
+    commentsList = data.map((comment) => `
+        <li>
+          <p>${comment.comment}</p>
+          <p><em>${comment.username} - ${comment.creation_date}</em></p>
+        </li>
+      `).join('');
+  } else {
+    commentsList = '<li>No comments yet</li>';
+  }
+
+  const commentsListElement = document.getElementById(`comments-list-${pokemonID}`);
+  commentsListElement.innerHTML = commentsList;
+};
 
 // Function to get the likes of each Pokemon
 const getLikesData = async () => {
@@ -46,8 +56,6 @@ const renderPokemons = async (listOfPokemons) => {
     const item = likesData.find((item) => item.item_id === `pk-${index + 1}`);
     likes = item ? item.likes : 0;
 
-    // getComments(`pk-${index + 1}`);
-
     pokemonDetail += `
     <div class="card" id="pk-${index + 1}">
       <img class="card-image" src="${element.url}" alt="${element.name}">
@@ -65,7 +73,7 @@ const renderPokemons = async (listOfPokemons) => {
         </button>
         <p class="pk-${index + 1}">${likes}</p>
       </div>
-        <button type="button" class="full-rounded comment-btn" id="comment">Comments</button>
+        <button type="button" class="full-rounded comment-btn pk-${index + 1}" id="comment">Comments</button>
       </div>
     </div>
     
@@ -73,7 +81,7 @@ const renderPokemons = async (listOfPokemons) => {
     <!-- Pop up window -->
 
     
-    <div class="popup hidden">
+    <div class="popup hidden" id="${index + 1}" data-target-modal="pk-${index + 1}">
       <div class="popup-header">
         <h2>${element.name}</h2>
         <button class="close-popup">X</button>
@@ -87,7 +95,7 @@ const renderPokemons = async (listOfPokemons) => {
         </div>
         <div class="comment-section">
           <h3>Comments</h3>
-          <ul class="comments-list" data-target-modal="pk-${index + 1}">
+          <ul class="comments-list" data-target-modal="pk-${index + 1}"  id="comments-list-pk-${index + 1}">
           
           <!-- COMMENTS HERE -->
           
@@ -103,8 +111,8 @@ const renderPokemons = async (listOfPokemons) => {
                 <textarea id="Comments" rows="4" required></textarea>
               </div>
             </div>
+            </form>
             <button type="submit">Add Comments</button>
-          </form>
         </div>
       </div>
     </div>
@@ -144,6 +152,7 @@ const renderPokemons = async (listOfPokemons) => {
 
   cardsContainer.forEach((item) => item.addEventListener('click', (event) => {
     const popup = event.target.parentNode.parentNode.nextElementSibling;
+    getComments(`pk-${popup.id}`);
     if (event.target.classList.contains('comment-btn')) {
       popup.classList.toggle('hidden');
     }
@@ -152,79 +161,6 @@ const renderPokemons = async (listOfPokemons) => {
       popup.classList.add('hidden');
     });
   }));
-
-  // Comments
-
-  // const commentsContainer = document.querySelectorAll('[data-target-modal]');
-  // console.log(commentsContainer);
-
-
-
-  const renderComments = async () => {
-    const commentsContainer = document.querySelectorAll('[data-target-modal]');
-    console.log(commentsContainer);
-    commentsList.innerHTML = ''; // Clear existing comments
-
-    commentsContainer.forEach((comment) => {
-      try {
-        const commentsData = getComments();
-        console.log(commentsData);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    });
-
-
-
-
-    /*
-    const commentsList = document.querySelector('.comments-list');
-    commentsList.innerHTML = ''; // Clear existing comments
-
-    try {
-      const commentsData = await fetchComments();
-      commentsData.forEach((comment) => {
-        const commentElement = createCommentElement(comment);
-        commentsList.appendChild(commentElement);
-      });
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    */
-  };
-
-  // Call the renderComments function to display the comments initially
-  renderComments();
-
-
-
-
-
-
-
-  const displayComments = commentsContainer.forEach((comment) => {
-    const element = comment.querySelector('[data-target-modal]');
-
-
-  });
-
-  /*
-  const li = document.createElement('li');
-  ul.append(li);
-  li.innerText = `${commentDate()} ${name.value}: ${insight.value}`;
-  const values = [name.value, insight.value];
-  clearForm();
-  return values;
-};
-
-if (comments.error) {
-    const li = document.createElement('li');
-    ul.append(li);
-    li.innerText = 'No comments yet.';
-
-
-*/
-
 };
 
 const getData = async (callback) => {
@@ -234,21 +170,15 @@ const getData = async (callback) => {
       method: 'GET',
     });
     const dataPokemon = await responsePokeAPI.json();
-    
+
     // Get the pokemon's names and ids
     const getPokemonBaseData = dataPokemon.results;
-    
+
     const promisesArray = getPokemonBaseData.map(async (i) => {
       const res = await fetch(i.url);
       const dataPokemon = await res.json();
-      // console.log(dataPokemon);
       return dataPokemon;
     });
-
-    // Get the comments
-
-
-
 
     // Create an normal array from the promises array
     const urlsInfoArray = await Promise.all(promisesArray);
