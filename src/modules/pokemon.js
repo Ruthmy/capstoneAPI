@@ -1,15 +1,12 @@
 // Homepage
+import amountOfComments from './amountOfComments.js';
+import amountOfPokemons from './amountOfPokemons.js';
 
 // Set the url for the API
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
 // Get the Comments from the API
-
-function amountOfComments(totalComments, pokemonID) {
-  const spanElement = document.querySelector(`.amount-${pokemonID}`);
-  spanElement.textContent = totalComments;
-}
 
 const getComments = async (pokemonID) => {
   const requestOptions = {
@@ -102,12 +99,6 @@ const updateLikeNumber = async (pokemonId) => {
   const item = likesData.find((item) => item.item_id === pokemonId);
   const likes = item ? item.likes : 0;
   return likes;
-};
-
-// This part updates the total pokemon number in the nav.
-const amountOfPokemons = (listOfPokemons) => {
-  const sampElement = document.querySelector('samp');
-  sampElement.textContent = listOfPokemons;
 };
 
 // Render results ------------------------------------------------------------------------------
@@ -281,5 +272,3 @@ const getData = async (callback) => {
 };
 
 getData(renderPokemons);
-
-module.exports = { amountOfComments };

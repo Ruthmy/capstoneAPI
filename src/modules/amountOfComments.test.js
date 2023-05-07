@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { amountOfComments } from './pokemon.js';
+import amountOfComments from './amountOfComments.js';
 
 describe('amountOfComments', () => {
   test('should update the span element with the correct number of comments', () => {
