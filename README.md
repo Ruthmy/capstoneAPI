@@ -26,6 +26,14 @@
 
 # 📖 [capstoneAPI] <a name="list structure"></a>
 
+<div align="center">
+
+  <img src="Pokedex.png" alt="logo" width="100%"  height="auto" />
+  <br/>
+
+</div>
+<br>
+
 >**capstoneAPI!** This Pokedex is an application that catalogs information about the various species of Pokemon. Includes details such as the Pokemon's name, type, abilities, strengths y comments about it.
 
 
@@ -44,8 +52,20 @@
 
 ### Key Features <a name="key-features"></a>
 
-- **[Good HTML ,CSS and JS practices]**
-- **[This repository includes linters]**
+<ul>
+  <li>HTML & CSS3</li>
+  <li>JavaScript</li>
+  <li>Linters
+    <ul>
+      <li>Lihgthouse</li>
+      <li>Webhint</li>
+      <li>StyleLint</li>
+      <li>ESLint</li>
+    </ul>
+</ul>
+
+- **Good HTML ,CSS and JS practices.**
+- **See the pokemon information:** Users can view information about each pokemon, such as its name, features, and details.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -105,7 +125,8 @@ Clone this repository to your desired folder:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **[make the project more professional]**
+- Accessibility improvements.
+- make the project more professional.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

@@ -88,7 +88,7 @@ header {
   display: flex;
   flex-direction: row;
   height: 1.5rem;
-  margin: 1.5rem 3rem 1.5rem 3rem;
+  padding: 2rem 3vw 2rem 3vw;
   justify-content: space-between;
   align-items: center;
   font-family: var(--nav);
@@ -202,11 +202,13 @@ footer a {
   transform: translate(-50%, -50%);
   z-index: 9999;
   background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 1rem;
+  border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  height: 80%;
+  min-height: 80%;
+  max-height: min-content;
   width: 50%;
+  min-width: min-content;
 }
 
 .popup-header {
@@ -215,7 +217,7 @@ footer a {
 }
 
 .popup-body img {
-  height: 15rem;
+  height: 14rem;
   align-self: center;
 }
 

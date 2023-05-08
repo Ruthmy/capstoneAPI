@@ -6,7 +6,7 @@ import amountOfPokemons from './amountOfPokemons.js';
 const urlAPI = 'https://pokeapi.co/api/v2/pokemon/';
 const urlInvolvementAPI = 'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/IWti9y6er0AcFVo2U2d3/';
 
-// Get the Comments from the API
+// Get the Comments from the API ------------------------------------------------------------------
 
 const getComments = async (pokemonID) => {
   const requestOptions = {
@@ -39,61 +39,65 @@ const getComments = async (pokemonID) => {
     commentsList = '<li>No comments yet</li>';
   }
 
+  // Update the comments list on the popup
   const commentsListElement = document.getElementById(`comments-list-${pokemonID}`);
   commentsListElement.innerHTML = commentsList;
 };
 
-// Create a new comment
+// Create a new comment  ---------------------------------------------------------------------------
 const sendComment = async (pokemonID) => {
   const commentForm = document.getElementById(`comment-form-${pokemonID}`);
   const usernameInput = commentForm.querySelector(`#username-${pokemonID}`);
   const commentInput = commentForm.querySelector(`#comment-${pokemonID}`);
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      item_id: pokemonID,
-      username: usernameInput.value,
-      comment: commentInput.value,
-    }),
-  };
+  const errorElement = document.getElementById(`error-${pokemonID}`);
 
-  await fetch(`${urlInvolvementAPI}comments?item_id=${pokemonID}`, requestOptions);
-  // const data = await response.json();
+  if (usernameInput.value !== '' && commentForm.value !== '') {
+    // POST Request
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        item_id: pokemonID,
+        username: usernameInput.value,
+        comment: commentInput.value,
+      }),
+    };
 
-  const requestOptionsGet = {
-    method: 'GET',
-    redirect: 'follow',
-  };
+    await fetch(`${urlInvolvementAPI}comments?item_id=${pokemonID}`, requestOptions);
 
-  const response = await fetch(`${urlInvolvementAPI}comments/?item_id=${pokemonID}`, requestOptionsGet);
-  const data = await response.json();
-  const comments = data[0];
+    // GET request to update comment list ---------------------------------------------------
+    getComments(pokemonID);
 
-  let commentsList;
-  if (comments !== undefined) {
-    commentsList = data.map((comment) => `
-        <li>
-          <p>${comment.comment}</p>
-          <p><em>${comment.username} - ${comment.creation_date}</em></p>
-        </li>
-      `).join('');
+    // To clean the form -----------------------------------------------------------------
+    commentForm.querySelector(`#username-${pokemonID}`).value = '';
+    commentForm.querySelector(`#comment-${pokemonID}`).value = '';
   } else {
-    commentsList = '<li>No comments yet</li>';
-  }
+    const messages = [];
+    if (usernameInput.value === '' && commentForm.value === '') {
+      messages.push('Please enter a username and a comment.');
+    } else if (commentForm.value === '' && usernameInput.value !== '') {
+      messages.push('Please enter a username.');
+    } else if (usernameInput.value === '' && commentForm.value !== '') {
+      messages.push('Please enter a comment.');
+    }
 
-  const commentsListElement = document.getElementById(`comments-list-${pokemonID}`);
-  commentsListElement.innerHTML = commentsList;
+    if (messages.length > 0) {
+      errorElement.innerText = messages.join(', ');
+      setTimeout(() => {
+        errorElement.remove();
+      }, 3000);
+    }
+  }
 };
 
-// Function to get the likes of each Pokemon
+// Function to get the likes of each Pokemon  -----------------------------------------------------
 const getLikesData = async () => {
   const response = await fetch(`${urlInvolvementAPI}likes/`, { method: 'GET' });
   const data = await response.json();
   return data;
 };
 
-// Function to update the amount of likes for a specific pokemon
+// Function to update the amount of likes for a specific pokemon  ----------------------------------
 const updateLikeNumber = async (pokemonId) => {
   const likesData = await getLikesData();
   const item = likesData.find((item) => item.item_id === pokemonId);
@@ -101,7 +105,7 @@ const updateLikeNumber = async (pokemonId) => {
   return likes;
 };
 
-// Render results ------------------------------------------------------------------------------
+// Render results ----------------------------------------------------------------------------------
 
 const renderPokemons = async (listOfPokemons) => {
   // Get pokemon likes
@@ -137,7 +141,7 @@ const renderPokemons = async (listOfPokemons) => {
     <!-- Pop up window -->
 
     
-    <div class="popup hidden" id="${index + 1}" data-target-modal="pk-${index + 1}">
+    <div class="popup hidden" id="${index + 1}">
       <div class="popup-header">
         <h2>${element.name}</h2>
         <button class="close-popup">X</button>
@@ -153,7 +157,7 @@ const renderPokemons = async (listOfPokemons) => {
 
           <h3>Comments (<span class="amount-pk-${index + 1}"></span>)</h3>
 
-          <ul class="comments-list" data-target-modal="pk-${index + 1}"  id="comments-list-pk-${index + 1}">
+          <ul class="comments-list" id="comments-list-pk-${index + 1}">
           
           <!-- COMMENTS HERE -->
           
@@ -172,7 +176,8 @@ const renderPokemons = async (listOfPokemons) => {
               </div>
             </div>
           </form>
-            <button type="button" class="form-button" id="pk-${index + 1}">Add Comments</button>
+          <button type="button" class="form-button" id="pk-${index + 1}">Add Comments</button>
+          <div id="error-pk-${index + 1}"></div>
         </div>
       </div>
     </div>
@@ -182,7 +187,7 @@ const renderPokemons = async (listOfPokemons) => {
   const section = document.querySelector('section.cards');
   section.innerHTML = pokemonDetail;
 
-  // This section contains the like buttons functionality
+  // This section contains the like buttons functionality  --------------------------
   const likeButtons = document.querySelectorAll('.like');
 
   likeButtons.forEach((button) => {
@@ -207,7 +212,7 @@ const renderPokemons = async (listOfPokemons) => {
     });
   });
 
-  // This section contains the comment buttons functionality
+  // This section contains the popup functionality  ---------------------------------
   const cardsContainer = document.querySelectorAll('.comment-btn');
 
   cardsContainer.forEach((item) => item.addEventListener('click', (event) => {
@@ -222,12 +227,13 @@ const renderPokemons = async (listOfPokemons) => {
     });
   }));
 
+  // This section contains the comment buttons functionality  ------------------------
   const addCommentButtons = document.querySelectorAll('.form-button');
 
   addCommentButtons.forEach((button) => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
       sendComment(button.id);
-      // getComments(button.id);
     });
   });
 };
