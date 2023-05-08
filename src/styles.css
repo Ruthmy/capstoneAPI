@@ -1,0 +1,327 @@
+/* Global Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+html {
+  box-sizing: border-box;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: inherit;
+
+  /* outline: 1px solid red !important; */
+}
+
+:root {
+  /* Set your variables here */
+  --font: 'Montserrat', sans-serif;
+  --nav: 'Press Start 2P', cursive;
+  --text: #070707;
+  --background: #f3f4f6;
+  --card: white;
+  --cardtext: #33333f;
+  --footer: rgb(223, 223, 223);
+}
+
+/* General styles */
+
+body {
+  color: var(--text);
+  font-family: var(--font);
+  background-color: var(--background);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem 5rem 2rem;
+  align-items: center;
+}
+
+/* Text styles */
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  padding: 1vh;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p {
+  font-size: 1rem;
+}
+
+p[class*="pk-"] {
+  text-align: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+ul {
+  list-style: none;
+}
+
+samp {
+  font-family: var(--nav);
+}
+
+/* Header / Navbar */
+
+header {
+  display: flex;
+  flex-direction: row;
+  height: 1.5rem;
+  padding: 2rem 3vw 2rem 3vw;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--nav);
+}
+
+header img {
+  height: 3rem;
+  width: 3rem;
+}
+
+header ul {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+.links-out {
+  color: rgb(119, 119, 119);
+}
+
+/* Cards style */
+
+section.cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 1.5rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background: var(--card);
+  border-radius: 1.5rem;
+  border: transparent;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 15rem;
+  height: 12rem;
+  margin: 4rem 0.8rem 0.8rem 0.8rem;
+  padding: 1rem;
+  transition: all;
+  transition-duration: 0.7s;
+}
+
+.card:hover {
+  scale: 1.05;
+}
+
+.card-image,
+.card-header,
+.card-body,
+.card-button {
+  display: inherit;
+  width: 100%;
+  justify-content: center;
+}
+
+img.card-image {
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -90%);
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+button[type=button] {
+  color: white;
+  background-color: royalblue;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+  margin: auto;
+  padding: 1rem 2rem 1rem 2rem;
+  border: none;
+  box-shadow: 0.5rem 1rem 1rem -1rem rgba(0, 0, 0, 0.5);
+  border-radius: 2rem;
+}
+
+/* Footer */
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  background-color: var(--footer);
+  margin-top: auto;
+  width: 100%;
+}
+
+footer a {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  min-height: 80%;
+  max-height: min-content;
+  width: 50%;
+  min-width: min-content;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-body img {
+  height: 14rem;
+  align-self: center;
+}
+
+.popup-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.pokemon-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.popup h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.popup p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.popup button,
+button[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-section,
+.comme {
+  width: 100%;
+}
+
+.popup button:hover {
+  background-color: #0d5410;
+}
+
+.comment-section {
+  height: 8rem;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.comment-section h3 {
+  padding-bottom: 0.5rem;
+}
+
+.comment-section form {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+input {
+  margin-left: 31px;
+}
+
+input,
+textarea {
+  width: 20rem;
+  border: 2px solid #070707;
+  height: 2rem;
+}
+
+.comments {
+  margin-top: 10px;
+}
+
+.comment {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.comment-form {
+  display: flex;
+}
+
+.comment p {
+  margin: 0;
+}
+
+.comment .comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#Comments {
+  text-align: center;
+}
+
+.comme {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.8rem 0;
+}
